@@ -56,21 +56,62 @@ fetchData().then((data) => {
     btn.textContent = "Sepete Ekle";
 
     btn.addEventListener("click", () => {
-      console.log(urun);
-
       sepet.push(urun);
       sepet.forEach((urun) => {
-        const urunAdi = document.createElement("p");
-        urunAdi.textContent = urun.title;
+        const parentDiv = document.createElement("div");
+        parentDiv.style.width = "100%";
+        parentDiv.style.border = "1px solid black";
+        parentDiv.style.borderRadius = "10px";
+        parentDiv.style.display = "flex";
+        parentDiv.style.justifyContent = "space-between";
+        parentDiv.style.alignItems = "center";
+        parentDiv.style.marginTop = "10px";
 
-        cart.append(urunAdi);
+        const imgDiv = document.createElement("div");
+        imgDiv.style.width = "25%";
+        imgDiv.style.height = "80px";
+        imgDiv.style.overflow = "hidden";
+
+        const img = document.createElement("img");
+        img.src = urun.image;
+        img.style.width = "100%";
+        img.style.height = "100%";
+        img.style.borderRadius = "10px";
+
+        const baslik = document.createElement("p");
+        baslik.textContent = urun.title;
+        baslik.style.fontSize = "12px";
+        baslik.style.marginTop = "16px";
+
+        const fiyat = document.createElement("p");
+        fiyat.textContent = urun.price + "$";
+        fiyat.style.fontSize = "15px";
+        fiyat.style.fontWeight = "bold";
+        fiyat.style.marginTop = "16px";
+
+        const silmeBtn = document.createElement("i");
+        silmeBtn.classList.add("fa-solid", "fa-trash");
+
+        silmeBtn.addEventListener("click", function () {
+          this.parentElement.remove();
+
+          let urunIndex = normalSepet.indexOf(urun);
+          normalSepet.splice(urunIndex, 1);
+          let normalSepetJson = JSON.stringify(normalSepet);
+          localStorage.setItem("sepet", normalSepetJson);
+        });
+
+        imgDiv.append(img);
+        parentDiv.append(imgDiv);
+        parentDiv.append(baslik);
+        parentDiv.append(fiyat);
+        parentDiv.append(silmeBtn);
+        cart.append(parentDiv);
       });
 
       let sepetJSON = JSON.stringify(sepet);
-      console.log(sepetJSON);
-      localStorage.setItem("sepet", sepetJSON);
 
-      console.log(sepet);
+      localStorage.setItem("sepet", sepetJSON);
     });
 
     cardBody.append(baslik);
@@ -102,7 +143,53 @@ let localSepet = localStorage.getItem("sepet");
 let normalSepet = JSON.parse(localSepet);
 
 normalSepet.forEach((urun) => {
+  const parentDiv = document.createElement("div");
+  parentDiv.style.width = "100%";
+  parentDiv.style.border = "1px solid black";
+  parentDiv.style.borderRadius = "10px";
+  parentDiv.style.display = "flex";
+  parentDiv.style.justifyContent = "space-between";
+  parentDiv.style.alignItems = "center";
+  parentDiv.style.marginTop = "10px";
+
+  const imgDiv = document.createElement("div");
+  imgDiv.style.width = "25%";
+  imgDiv.style.height = "80px";
+  imgDiv.style.overflow = "hidden";
+
+  const img = document.createElement("img");
+  img.src = urun.image;
+  img.style.width = "100%";
+  img.style.height = "100%";
+  img.style.borderRadius = "10px";
+
   const baslik = document.createElement("p");
   baslik.textContent = urun.title;
-  cart.append(baslik);
+  baslik.style.fontSize = "12px";
+  baslik.style.marginTop = "16px";
+
+  const fiyat = document.createElement("p");
+  fiyat.textContent = urun.price + "$";
+  fiyat.style.fontSize = "15px";
+  fiyat.style.fontWeight = "bold";
+  fiyat.style.marginTop = "16px";
+
+  const silmeBtn = document.createElement("i");
+  silmeBtn.classList.add("fa-solid", "fa-trash");
+
+  silmeBtn.addEventListener("click", function () {
+    this.parentElement.remove();
+
+    let urunIndex = normalSepet.indexOf(urun);
+    normalSepet.splice(urunIndex, 1);
+    let normalSepetJson = JSON.stringify(normalSepet);
+    localStorage.setItem("sepet", normalSepetJson);
+  });
+
+  imgDiv.append(img);
+  parentDiv.append(imgDiv);
+  parentDiv.append(baslik);
+  parentDiv.append(fiyat);
+  parentDiv.append(silmeBtn);
+  cart.append(parentDiv);
 });
